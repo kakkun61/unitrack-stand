@@ -92,8 +92,6 @@ module upper_stage() {
       }
   }
   module rail_fence() {
-    // translate([0, - rail_fence_radius, 0]) cube([rail_fence_radius, 2 * rail_fence_radius, stage_thickness + stage_flange_height]);
-    // cylinder(r = rail_fence_radius, h = stage_thickness + stage_flange_height + rail_fence_height);
     rotate([90, 0, 0]) linear_extrude(24, center = true) {
       translate([0, stage_thickness + stage_flange_height]) polygon([[0, 0], [2, 0], [2, 0.5] ,[3, 1.5], [2, 2.5], [0, 2.5]]);
       square([2, stage_thickness + stage_flange_height]);
