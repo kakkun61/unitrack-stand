@@ -7,17 +7,27 @@ thickness = 0.6;
 depth = 5;
 
 module rail_fence() {
-  translate([stage_width / 2 + 2, 0, 0])
-    rotate([90, 0, 180])
-      linear_extrude(24, center = true)
-        translate([0, thickness + depth])
-          polygon([[0, 0], [2, 0], [2, 0.5] ,[3, 1.5], [2, 2.5], [0, 2.5]]);
-  linear_extrude(thickness + depth)
-    intersection() {
-      translate([stage_width / 2 + 1, 0])
-        square([2, 40], center = true);
-      circle(r = bottom_inner_radius);
-    }
+  fence_width = 33;
+  difference() {
+    translate([stage_width / 2 + 2, 0, 0])
+      rotate([90, 0, 180])
+        linear_extrude(fence_width, center = true)
+          translate([0, thickness + depth])
+            polygon([[0, 0], [2, 0], [2, 0.5] ,[3, 1.5], [2, 2.5], [0, 2.5]]);
+    translate([stage_width / 2 - 1, fence_width / 2 - 3, 0]) rotate([0, 0, 45]) cube([10, 10, 10]);
+    translate([stage_width / 2 - 1, - (fence_width / 2 - 3), 0]) rotate([0, 0, 225]) cube([10, 10, 10]);
+  }
+  snap = 2;
+  intersection() {
+    translate([stage_width / 2 + 2, 0, 0])
+      rotate([90, 0, 180])
+        linear_extrude(60, center = true)
+          union() {
+            square([2, thickness + depth]);
+            polygon([[2, thickness + depth - 2], [2 + 2, thickness + depth], [2, thickness + depth]]);
+          }
+    cylinder(r = bottom_inner_radius - thickness, h = thickness + depth);
+  }
 }
 
 module cup_joiner() {
